@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,8 +38,16 @@ namespace AspNetTips.MvcSite
 
 				app.UseHsts();
 			}
+
 			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+
+			// ファイル拡張子とMIMEタイプを関連付ける
+			var provider = new FileExtensionContentTypeProvider();
+			provider.Mappings.Add(".vue", "application/octet-stream");
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				ContentTypeProvider = provider,
+			});
 
 			app.UseRouting();
 

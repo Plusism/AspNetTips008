@@ -1,8 +1,40 @@
 ﻿@{
 	ViewData["Title"] = "Home Page";
 }
+@section Scripts {
+	<script>
+		new Vue({
+			el: '#app',
+			components: {
+				'hello': httpVueLoader('/vue/Hello.vue'),
+			},
+		})
+	</script>
+}
+<div id="app">
 
-<div class="text-center">
-	<h1 class="display-4">Welcome</h1>
-	<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+	<h1 class="text-center">.vue ファイルを読み込む</h1>
+
+	<p>
+		jsDelivr (CDN) から <a href="https://www.jsdelivr.com/package/npm/vue">vue@@2.6.12</a> と <a href="https://www.jsdelivr.com/package/npm/http-vue-loader">http-vue-loader@@1.4.2</a> を読み込み、自作した Vue の単一ファイルコンポーネント「Hello.vue」を事前ビルド無しで読み込んでレンダリングします。
+	</p>
+
+	<p>
+		ただ、 「.vue」 の拡張子は ASP.NET Core では未定義の為、ファイル読み込み時に404エラーになってしまうので、Startup.cs の app.UseStaticFiles() のオプションで、ファイル拡張子と MIME タイプを関連付ける必要があります。
+	</p>
+
+	<hr />
+
+	<p>↓コンポーネントをそのまま呼び出した場合</p>
+
+	<hello></hello>
+
+	<p>↓props の name と slot の default を指定して呼び出した場合</p>
+
+	<hello name="Plusism">
+		<p>コンテンツ こんてんつ コンテンツ こんてんつ コンテンツ</p>
+		<p class="orange">コンテンツ こんてんつ コンテンツ こんてんつ コンテンツ こんてんつ コンテンツ</p>
+		<p>コンテンツ こんてんつ コンテンツ こんてんつ コンテンツ</p>
+	</hello>
+
 </div>
